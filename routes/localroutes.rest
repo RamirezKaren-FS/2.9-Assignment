@@ -1,0 +1,31 @@
+GET http://localhost:8000/cars
+
+###
+
+GET http://localhost:8000/cars/66e8aaa57fc29608f755ba22
+
+###
+
+POST http://localhost:8000/cars
+Content-Type: application/json
+
+{
+    "make": "Chevrolet",
+    "model": "Silverado",
+    "year": 2014
+}
+
+###
+
+DELETE  http://localhost:8000/cars/66e8aa627fc29608f755ba20
+
+###
+
+PATCH  http://localhost:8000/cars/66e8aa627fc29608f755ba20
+Content-Type: application/json
+
+{
+    "make": "Chevrolet",
+    "model": "Silverado",
+    "year": 2014
+}
