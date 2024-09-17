@@ -23,7 +23,13 @@ db.once('open', () => console.log("Database Connection Established"))
 
 app.use(express.json())
 
-app.use('/cars', carRouter)
+app.use('/api/v1/cars', carRouter)
+
+app.use(express.static(path.join(__dirname, '../reactjs/build')));
+
+app.get('/*', (req,res) =>{
+    res.sendFile(path.join(__dirname, '../reactjs/build', 'index.html'));
+});
 
 app.listen(PORT, () =>
     console.log(`Server running on ${PORT}`)
