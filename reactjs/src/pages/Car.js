@@ -12,9 +12,9 @@ function Car() {
     
 
     const [values, setValues] = useState({
-        make: "",
-        model: "",
-        year:""
+        make: " ",
+        model: " ",
+        year: " "
     })
 
     const { id }= useParams();
@@ -28,6 +28,7 @@ let ignore = false;
     useEffect(() =>{
     if(!ignore){
         getCar();
+        console.log(API_BASE);
     }
 
     return () => {
@@ -39,7 +40,7 @@ let ignore = false;
     const getCar = async () =>{
     setLoading(true)
     try {
-        await fetch(`${API_BASE}/cars`)
+        await fetch(`${API_BASE}/api/v1/cars`)
         .then(res => res.json())
         .then(data =>{
             console.log(data.make);
@@ -57,7 +58,7 @@ let ignore = false;
 
     const deleteCar = async () =>{
         try {
-            await fetch(`${API_BASE}/cars/${id}`, {
+            await fetch(`${API_BASE}/api/v1/cars/${id}`, {
                 method: 'DELETE'
             })
             .then(res => res.json())
@@ -75,7 +76,7 @@ let ignore = false;
 
     const updateCar = async () =>{
         try {
-            await fetch(`${API_BASE}/cars/${id}`, {
+            await fetch(`${API_BASE}/api/v1/cars/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application-json'

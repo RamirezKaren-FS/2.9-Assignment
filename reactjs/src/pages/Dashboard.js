@@ -86,13 +86,14 @@ return (
         <h1>Cars:</h1>
         <Link to="/">Homepage</Link> 
         <ul>
-            {
+            <li>{[cars.year]}</li>
+            {/* {
                 cars.map(car =>{
                     <li key={car._id}>
                         <Link to={`/cars/${car._id}`}>{car.make}</Link>
                     </li>
                 })
-            }
+            } */}
         </ul>
         <form onSubmit={(event) => handleSubmit(event)}>
             <label>Make:
