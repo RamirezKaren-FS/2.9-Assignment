@@ -1,4 +1,10 @@
 const express = require('express')
+
+const passport = require('passport')
+
+const passportService = require('../services/passport')
+
+const protectedRoute = passport.authenticate('jwt', {session: false})
 const router = express.Router();
 
 const Car = require('../models/cars')
@@ -17,7 +23,7 @@ const getCar = async (req, res, next) =>{
     next();
 }
 
-router.get('/', async (req,res) => {
+router.get('/', protectedRoute, async (req,res) => {
     try {
         const cars = await Car.find()
         res.json(cars)
