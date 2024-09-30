@@ -15,7 +15,6 @@ exports.signin = (req, res,next) =>{
     res.send({token: tokenForUser(user), user_id: user._id})
 }
 
-
 exports.signup = async (req, res, next) => {
     const {
         email,
@@ -24,18 +23,15 @@ exports.signup = async (req, res, next) => {
     if (!email || !password){
         return res.status(422).json({error: "Please provide your email and password."})
     }
-
     try {
         const existingUser = await User.findOne({email: email});
         if(existingUser){
             return res.status(422).json({error: "Email already in use."})
         }
-
         const user = new User({
             email: email,
             password: password
         });
-
         await user.save();
         res.json({user_id: user._id, token: tokenForUser(user)});
     } catch (error) {

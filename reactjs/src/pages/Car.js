@@ -6,12 +6,8 @@ import '../App.css';
 function Car() {
 
     const [cars, setCars] = useState(null)
-
     const [loading, setLoading] = useState(false)
-
     const [error, setError] = useState(null)
-    
-
     const [values, setValues] = useState({
         make: "",
         model: "",
@@ -36,7 +32,6 @@ let ignore = false;
     }
     }, [])
 
-
     const getCar = async () =>{
     setLoading(true)
     try {
@@ -55,7 +50,6 @@ let ignore = false;
         setLoading(false)
     }
 }
-
     const deleteCar = async () =>{
         try {
             await fetch(`${API_BASE}/cars/${id}`, {
@@ -74,7 +68,6 @@ let ignore = false;
             setLoading(false)
         }
     }
-
     const updateCar = async () => {
         try {
             await fetch(`${API_BASE}/cars/${id}`, {
@@ -96,12 +89,10 @@ let ignore = false;
             setLoading(false)
         }
     }
-
     const handleSubmit = (event) => {
         event.preventDefault();
         updateCar();
     }
-
     const handleInputChanges = (event) => {
         event.persist();
         setValues(({values}) => ({
@@ -113,16 +104,13 @@ let ignore = false;
 return (
     <div className="App">
         <header className="App-header">
-        <h1>Car List:</h1>
+        <h1>Selected Car:</h1>
         <h5>ID:{values&&values._id}</h5>
         <h5>Make:{values&&values.make}</h5>
         <h5>Model:{values&&values.model}</h5>
         <h5>Year:{values&&values.year}</h5>
-
-
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/">Home</Link>
-
         <button onClick={() => deleteCar()}>Delete Car </button>
         <form onSubmit={(event) => handleSubmit(event)}>
             <label>Make:

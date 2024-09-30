@@ -103,30 +103,29 @@ const handleInputChanges = (event) => {
 }
 
 return (
-    <div className="App">
-        <header className="App-header">
+    <div className="carlist">
+        <header >
         <h1>Cars:</h1>
         <Link to="/">Homepage</Link> 
+        <form onSubmit={(event) => handleSubmit(event)}>
+                    <label>Make:
+                    <input type='text' name="make" value={values.make} onChange={handleInputChanges}/>
+                    </label>
+                    <label>Model:
+                    <input type='text' name="model" value={values.model} onChange={handleInputChanges}/>
+                    </label>
+                    <label>Year:
+                    <input type='text' name="year" value={values.year} onChange={handleInputChanges}/>
+                    </label>
+                    <input type='submit' value='submit'/>
+        </form>
         <ul>
             {
                 cars?.map(car => ( <li key={car._id}>
-                    <Link to={`/cars/${car._id}`}>{car._id}</Link>
+                    <Link to={`/cars/${car._id}`}>{car.make}-{car.model}</Link>
                 </li>))
             }
         </ul>
-        <form onSubmit={(event) => handleSubmit(event)}>
-            <label>Make:
-            <input type='text' name="make" value={values.make} onChange={handleInputChanges}/>
-            </label>
-            <label>Model:
-            <input type='text' name="model" value={values.model} onChange={handleInputChanges}/>
-            </label>
-            <label>Year:
-            <input type='text' name="year" value={values.year} onChange={handleInputChanges}/>
-            </label>
-            <input type='submit' value='submit'/>
-        </form>
-
     </header>
     </div>
     );

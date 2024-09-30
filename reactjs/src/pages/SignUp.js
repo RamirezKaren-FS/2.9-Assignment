@@ -27,11 +27,9 @@ function SignUp() {
     }
 
 return (
-    <div className="App">
-        <header className="App-header">
+    <div className="body" >
+        <header >
         <h1>SignUp Screen</h1>
-        <Link to="/dashboard">Dashboard</Link>
-        <Link to="/cars">Cars</Link>
         <section>
         <form onSubmit={handleSignup}>
             <input
@@ -49,9 +47,12 @@ return (
             <button type='submit'>Sign Up</button>
         </form>
     </section>
+    <Link to="/dashboard">Car List</Link><br></br>
+        <Link to="/">Home</Link>
     </header>
     </div>
     );
 }
 
 export default SignUp;
+
