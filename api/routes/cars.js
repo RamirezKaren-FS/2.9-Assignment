@@ -1,12 +1,8 @@
 const express = require('express')
-
 const passport = require('passport')
-
 const passportService = require('../services/passport')
-
 const protectedRoute = passport.authenticate('jwt', {session: false})
 const router = express.Router();
-
 const Car = require('../models/cars')
 
 const getCar = async (req, res, next) =>{
@@ -14,7 +10,7 @@ const getCar = async (req, res, next) =>{
     try {
         car = await Car.findById(req.params.id)
         if(car === null){
-            return res.status(404).json({message:"Car not found"})
+        return res.status(404).json({message:"Car not found"})
         }
     } catch (error) {
         res.status(500).json({message: error.message})

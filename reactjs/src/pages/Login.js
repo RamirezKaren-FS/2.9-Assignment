@@ -27,11 +27,9 @@ function Login() {
     }
 
 return (
-    <div className="App">
-        <header className="App-header">
+    <div className="login">
+        <header>
         <h1>Login Screen </h1>
-        <Link to="/dashboard">Dashboard</Link>
-        <Link to="/cars">Cars</Link>
         <section>
         <form onSubmit={handleLogin}>
             <input
@@ -49,6 +47,8 @@ return (
             <button type='submit'>Sign Up</button>
         </form>
     </section>
+    <Link to="/dashboard">Car List</Link><br></br>
+    <Link to="/">Home</Link>
     </header>
     </div>
     );
