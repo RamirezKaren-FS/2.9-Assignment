@@ -10,6 +10,9 @@ return (
         <h1>Your Favorite Cars:</h1>
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/cars">Cars</Link>
+        <Link to="/login">Login</Link>
+        <Link to="/signup">Sign Up</Link>
+
     </header>
     </div>
     );

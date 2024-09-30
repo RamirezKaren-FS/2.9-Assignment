@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import authHeader from '../services/auth.header';
 import '../App.css';
 
 function Car() {
@@ -12,9 +13,9 @@ function Car() {
     
 
     const [values, setValues] = useState({
-        make: " ",
-        model: " ",
-        year: " "
+        make: "",
+        model: "",
+        year: ""
     })
 
     const { id }= useParams();
@@ -28,7 +29,6 @@ let ignore = false;
     useEffect(() =>{
     if(!ignore){
         getCar();
-        console.log(API_BASE);
     }
 
     return () => {
@@ -40,14 +40,14 @@ let ignore = false;
     const getCar = async () =>{
     setLoading(true)
     try {
-        await fetch(`${API_BASE}/api/v1/cars`)
+        await fetch(`${API_BASE}/cars/${id}`, {headers: authHeader()})
         .then(res => res.json())
         .then(data =>{
-            console.log(data.make);
             setValues({
                 make: data.make,
                 model: data.model,
-                year: data.year})
+                year: data.year
+            })
         })
     } catch (error) {
         setError(error.message || 'Unexpected Error')
@@ -58,8 +58,9 @@ let ignore = false;
 
     const deleteCar = async () =>{
         try {
-            await fetch(`${API_BASE}/api/v1/cars/${id}`, {
-                method: 'DELETE'
+            await fetch(`${API_BASE}/cars/${id}`, {
+                method: 'DELETE',
+                headers: authHeader()
             })
             .then(res => res.json())
             .then(data =>{
@@ -74,20 +75,19 @@ let ignore = false;
         }
     }
 
-    const updateCar = async () =>{
+    const updateCar = async () => {
         try {
-            await fetch(`${API_BASE}/api/v1/cars/${id}`, {
+            await fetch(`${API_BASE}/cars/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application-json'
                 },
-                body: JSON.stringify(values)
+                body: JSON.stringify(values),
+                headers: authHeader()
             })
             .then(res => res.json())
             .then(data =>{
-                console.log(data);
-            setCars(data)
-            navigate("/dashboard", {replace: true})
+                console.log({data});
         })
         }
         catch (error) {
@@ -104,9 +104,9 @@ let ignore = false;
 
     const handleInputChanges = (event) => {
         event.persist();
-        setValues((values) => ({
+        setValues(({values}) => ({
         ...values,
-        [event.target.name] : event.target.value
+        [event.target.name]: event.target.value
         }))
     }
 
@@ -114,8 +114,15 @@ return (
     <div className="App">
         <header className="App-header">
         <h1>Car List:</h1>
-        <h5>{ cars && cars.make}</h5>
+        <h5>ID:{values&&values._id}</h5>
+        <h5>Make:{values&&values.make}</h5>
+        <h5>Model:{values&&values.model}</h5>
+        <h5>Year:{values&&values.year}</h5>
+
+
         <Link to="/dashboard">Dashboard</Link>
+        <Link to="/">Home</Link>
+
         <button onClick={() => deleteCar()}>Delete Car </button>
         <form onSubmit={(event) => handleSubmit(event)}>
             <label>Make:
@@ -128,7 +135,7 @@ return (
             <input type='text' name="year" value={values.year} onChange={handleInputChanges}/>
             </label>
             <input type='submit' value='submit'/>
-        </form>
+        </form> 
     </header>
     </div>
     );

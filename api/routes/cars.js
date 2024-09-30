@@ -32,7 +32,7 @@ router.get('/', protectedRoute, async (req,res) => {
     }
 })
 
-router.get('/:id', getCar, async (req,res) => {
+router.get('/:id', protectedRoute, getCar, async (req,res) => {
     res.json(res.car)
 })
 
@@ -50,7 +50,7 @@ router.post('/', async (req,res) => {
     }
 })
 
-router.patch('/:id', getCar, async (req,res) => {
+router.patch('/:id',protectedRoute, getCar, async (req,res) => {
     if(req.body.make != null ){
         res.car.make = req.body.make
     }
@@ -68,7 +68,7 @@ router.patch('/:id', getCar, async (req,res) => {
     }
 })
 
-router.delete('/:id', getCar, async (req,res) => {
+router.delete('/:id', protectedRoute, getCar, async (req,res) => {
     try {
         await res.car.deleteOne()
         res.json({message: "Removed car"})

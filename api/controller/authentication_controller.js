@@ -42,33 +42,3 @@ exports.signup = async (req, res, next) => {
         return next(error);
     }
 }
-
-// exports.signup = (req, res, next) => {
-//     const {
-//         email,
-//         password
-//     } = req.body
-//     if (!email || !password){
-//         return res.status(422).json({error: "Please provide your email and password."})
-//     }
-
-//     User.findOne({email: email}, (err, exsistingUser) =>{
-//         if(error){
-//             return next(errorr)
-//         }
-//         if(exsistingUser){
-//             return res.status(422).json({error: "Email already in use."})
-//         }
-
-//         const user = new User({
-//             email: email,
-//             password: password
-//         })
-
-//         user.save((error) =>{
-//             if(error) {return next(error)}
-
-//             res.json({user_id: user._id, token: tokenForUser(user)})
-//         })
-//     })
-// }

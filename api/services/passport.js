@@ -11,20 +11,36 @@ const localOptions ={
 }
 
 const localStrategy = new LocalStrategy(localOptions, async function(email, password, done){
-    user.comparePassword(password, function(error, isMatch) {
-                    if(error) {return done(error)}
-                    if(!isMatch) {return done(null, false)}
-                    return done(null, user);
-                })
     try {
         const aUser = await user.findOne({email: email});
         if(!aUser) {
             return done(null, false);
         }
-    } catch (error) { 
+        const isMatch = await user.comparePassword({password});
+        if(!isMatch) {
+            return done(null, false);
+        }
+        return done(null, user);
+    } catch (error) {
         return done(error);
     }
 });
+
+// const localStrategy = new LocalStrategy(localOptions, async function(email, password, done){
+//     user.comparePassword(password, function(error, isMatch) {
+//                     if(error) {return done(error)}
+//                     if(!isMatch) {return done(null, false)}
+//                     return done(null, user);
+//                 })
+//     try {
+//         const aUser = await user.findOne({email: email});
+//         if(!aUser) {
+//             return done(null, false);
+//         }
+//     } catch (error) { 
+//         return done(error);
+//     }
+// });
 
 
 

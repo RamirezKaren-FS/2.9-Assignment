@@ -1,27 +1,45 @@
 import React, {useEffect, useState} from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+import authHeader from '../services/auth.header';
+import authService from '../services/auth.service';
+import carService from '../services/cars.service';
+
 import '../App.css';
+
 
 function Dashboard() {
 
     const [cars, setCars] = useState([])
-
     const [loading, setLoading] = useState(false)
-
     const [error, setError] = useState(null)
-
     const [values, setValues] = useState({
         make: "",
         model: "",
         year:""
     })
 
+    const navigate = useNavigate()
+
     const API_BASE = process.env.NODE_ENV === 'development' ? `http://localhost:8000/api/v1` : process.env.REACT_APP_BASE_URL;
 
 let ignore = false;
 
     useEffect(() =>{
-    
+
+        carService.getAllPrivateCars().then(
+            response =>{
+                setCars(response.data)
+                console.log(response.data);
+            },
+            (error)=>{
+                console.log("Secured Page Error: ", error.response);
+                if(error.response && error.response.status == 403){
+                    authService.logout()
+                    navigate('/signin')
+                }
+            }
+        )
 
     if(!ignore){
         getCars();
@@ -33,10 +51,12 @@ let ignore = false;
     }, [])
 
 
+    
+
     const getCars = async () =>{
     setLoading(true)
     try {
-        await fetch(`${API_BASE}/cars`)
+        await fetch(`${API_BASE}/cars`,{headers: authHeader()})
         .then(res => res.json())
         .then(data =>{
             console.log(data);
@@ -56,9 +76,11 @@ const createCar = async () =>{
             headers: {
                 'Content-Type': 'application-json'
             },
-            body: JSON.stringify(values)
+            body: JSON.stringify(values),
+            headers: authHeader()
         })
         .then(() => getCars())
+        
         
     }
     catch (error) {
@@ -86,14 +108,11 @@ return (
         <h1>Cars:</h1>
         <Link to="/">Homepage</Link> 
         <ul>
-            <li>{[cars.year]}</li>
-            {/* {
-                cars.map(car =>{
-                    <li key={car._id}>
-                        <Link to={`/cars/${car._id}`}>{car.make}</Link>
-                    </li>
-                })
-            } */}
+            {
+                cars?.map(car => ( <li key={car._id}>
+                    <Link to={`/cars/${car._id}`}>{car._id}</Link>
+                </li>))
+            }
         </ul>
         <form onSubmit={(event) => handleSubmit(event)}>
             <label>Make:
